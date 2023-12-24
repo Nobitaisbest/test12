@@ -1,57 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover a world of exciting games! Check out our collection of thrilling games with unique genres and captivating content.">
+  <meta name="description"
+    content="Discover a world of exciting games! Check out our collection of thrilling games with unique genres and captivating content.">
   <title>All Games</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PTbVfK/DUH4I1/MAjG2gfc5N5EBI1Skg/ytiibF0ydqDMa" crossorigin="anonymous">
+
   <style>
     body {
       padding: 20px;
       background-color: #f8f9fa;
     }
+
     .game-card {
       margin-bottom: 20px;
       cursor: pointer;
     }
+
+    .highlighted-link {
+      color: #000000;
+    }
+
+    /* Add dark mode switch styles */
+    .dark-mode-switch {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+      color: #fff;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    /* Style for the dark mode label */
+    .dark-mode-label {
+      margin-left: 10px;
+    }
+
+    .dark-mode {
+      background-color: #333;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1 class="mt-4">All Games</h1>
-  
-        
+
+    <!-- Search Bar -->
+    <div class="input-group mt-3 mb-3">
+      <form action="/search" method="GET" class="w-100">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="search-addon">
+            <i class="fas fa-search"></i>
+          </span>
+        </div>
+        <input type="text" class="form-control" placeholder="Search for a game..." name="q" value="<%= searchQuery %>">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+
+
+
+
     <div class="row">
-      <% games.forEach(game => { %>
+      <% games.forEach(game=> { %>
         <div class="col-md-4 game-card" onclick="window.location.href='/games/<%= game._id %>'">
           <div class="card">
             <img src="<%= game.image %>" class="card-img-top" alt="<%= game.title %>">
             <div class="card-body">
-              <h5 class="card-title"><%= game.title %></h5>
-              <p class="card-text"><%= game.content %></p>
-              <p class="card-text"><strong>Genre:</strong> <%= game.genre %></p>
+              <h5 class="card-title">
+                <%= game.title %>
+              </h5>
+              <p class="card-text"><%- parseHyperlinks(game.content) %></p>
+              <p class="card-text"><strong>Genre:</strong>
+                <%= game.genre %>
+              </p>
               <p class="card-text">
                 <strong>Release Date:</strong>
                 <% if (game.releaseDate) { %>
                   <%= new Date(game.releaseDate).toLocaleDateString() %>
-                <% } else { %>
-                  N/A
-                <% } %>
+                    <% } else { %>
+                      N/A
+                      <% } %>
               </p>
             </div>
           </div>
         </div>
-      <% }); %>
+        <% }); %>
     </div>
-<a href="/genres" class="btn btn-info">View All Genres</a>
+    <a href="/genres" class="btn btn-info">View All Genres</a>
 
   </div>
+  <div class="dark-mode-switch">
+    <label class="switch">
+      <input type="checkbox" id="dark-mode-toggle">
+      <span class="slider round"></span>
+    </label>
+    <span class="dark-mode-label">Dark Mode</span>
+  </div>
 
-  <!-- Add Bootstrap JS and Popper.js -->
+  <script>
+    const setDarkModePreference = (isDarkMode) => {
+      document.body.classList.toggle('dark-mode', isDarkMode);
+      localStorage.setItem('darkMode', isDarkMode);
+    };
+
+    document.getElementById('dark-mode-toggle').addEventListener('change', () => {
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      setDarkModePreference(!isDarkMode);
+    });
+
+    const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+    setDarkModePreference(storedDarkMode);
+  </script>
+
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
+
 </html>

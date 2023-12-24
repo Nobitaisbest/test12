@@ -98,6 +98,7 @@
     "whatwg-url": "^11.0.0"
   },
   "scripts": {
+    "dev": "nodemon public/app.js",
     "lint": "eslint .",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",

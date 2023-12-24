@@ -1,0 +1,44 @@
+<!-- editgames.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Include your meta tags, stylesheets, etc. here -->
+  <title>Edit Game</title>
+</head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<body>
+    <div class="container mt-4">
+        <h1>Edit Game</h1>
+      
+        <form action="/edit/<%= game._id %>" method="POST">
+          <div class="form-group">
+            <label for="image">Image URL:</label>
+            <input type="text" class="form-control" id="image" name="image" value="<%= game.image %>" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" value="<%= game.title %>" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="content">Content:</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required><%= game.content %></textarea>
+          </div>
+      
+          <div class="form-group">
+            <label for="releaseDate">Release Date:</label>
+            <input type="date" class="form-control" id="releaseDate" name="releaseDate" value="<%= game.releaseDate.toISOString().split('T')[0] %>" required>
+          </div>
+      
+          <div class="form-group">
+            <label for="genre">Genre:</label>
+            <input type="text" class="form-control" id="genre" name="genre" value="<%= game.genre %>" required>
+          </div>
+      
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+</body>
+</html>
