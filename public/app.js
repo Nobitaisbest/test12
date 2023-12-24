@@ -25,8 +25,8 @@ const gameSchema = new mongoose.Schema({
 
 const Game = mongoose.model("Game", gameSchema);
 const authenticate = (req, res, next) => {
-  const username = "admin";
-  const password = "password"; // Change this to your actual password
+  const username = "nobita18";
+  const password = "website";
 
   const authHeader = req.headers.authorization;
   if (!authHeader) {
