@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const path = require("path");
-
+const dotenv = require('dotenv');
 const app = express();
 const port = process.env.PORT || 1818;
 
@@ -22,11 +22,13 @@ const gameSchema = new mongoose.Schema({
   genre: String,
   addedDate: { type: Date, default: Date.now },
 });
+require('dotenv').config();
+
 
 const Game = mongoose.model("Game", gameSchema);
 const authenticate = (req, res, next) => {
-  const username = "nobita18";
-  const password = "website";
+  const username = process.env.ADMIN_USERNAME;
+  const password = process.env.ADMIN_PASSWORD;
 
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -58,7 +60,10 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/addgames", authenticate, (req, res) => {
-  res.render("addgames"); // Render the addgames.ejs view
+  res.render("addgames"); 
+});
+app.get("/admin", authenticate, (req, res) => {
+  res.render("admin"); 
 });
 
 app.post("/addgames", authenticate, async (req, res) => {

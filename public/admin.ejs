@@ -1,0 +1,50 @@
+<!-- admin.ejs -->
+<html lang="en">
+<head>
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .game-container {
+            margin-top: 20px;
+        }
+
+        .game {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            text-decoration: none;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Admin Panel</h1>
+
+    <% games.forEach(game => { %>
+        <div class="game-container">
+            <div class="game">
+                <h2><%= game.title %></h2>
+                <a href="/admin/delete/<%= game._id %>" class="delete-btn">Delete</a>
+            </div>
+        </div>
+    <% }); %>
+</body>
+</html>
